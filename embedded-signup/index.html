@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect WhatsApp Business · WABOX</title>
+<style>body{font:16px system-ui;background:#f7faff;color:#102b5c;display:grid;place-items:center;min-height:100vh;margin:0}.card{background:white;padding:28px;border-radius:20px;max-width:460px;box-shadow:0 8px 32px #102b5c18}button{background:#1877e8;color:white;border:0;border-radius:12px;padding:14px 22px;font-weight:700}</style>
+<script src="./config.js"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script></head>
+<body><main class="card"><h1>WABOX</h1><p>Connect your WhatsApp Business account securely with Meta.</p>
+<button id="connect" disabled>Continue with Meta</button><p id="status" aria-live="polite"></p></main>
+<script>
+const cfg=window.WABOX_CONFIG||{};
+const status=document.getElementById('status');
+window.fbAsyncInit=function(){
+ if(!cfg.appId||!cfg.configId){status.textContent='Meta configuration is not set. Configure appId and configId in config.js.';return;}
+ FB.init({appId:cfg.appId,autoLogAppEvents:true,xfbml:false,version:cfg.graphVersion||'v24.0'});
+ document.getElementById('connect').disabled=false;
+};
+let signupEvent=null;
+window.addEventListener('message',event=>{
+ if(event.origin!=='https://www.facebook.com' && event.origin!=='https://web.facebook.com')return;
+ let data=event.data;
+ if(typeof data==='string'){try{data=JSON.parse(data)}catch{return}}
+ if(data?.type==='WA_EMBEDDED_SIGNUP' && data?.event==='FINISH'){
+  signupEvent=data.data||data;
+ }
+});
+document.getElementById('connect').onclick=()=>{
+ FB.login(response=>{
+  const auth=response.authResponse;
+  if(!auth?.code){status.textContent='Signup was cancelled or no authorization code was returned.';return;}
+  // Meta sends WABA and phone_number identifiers through the WA_EMBEDDED_SIGNUP postMessage event.
+  const finish=()=>{
+   if(!signupEvent){status.textContent='Waiting for Meta WhatsApp account details…';return;}
+   const params=new URLSearchParams({code:auth.code,waba_id:signupEvent.waba_id||'',phone_number_id:signupEvent.phone_number_id||'',business_id:signupEvent.business_id||''});
+   location.href='wabox://meta-signup?'+params.toString();
+  };
+  finish();
+  if(!signupEvent){const timer=setInterval(()=>{if(signupEvent){clearInterval(timer);finish();}},300);setTimeout(()=>clearInterval(timer),30000);}
+ },{config_id:cfg.configId,response_type:'code',override_default_response_type:true,extras:{version:'v4'}});
+};
+</script></body></html>
