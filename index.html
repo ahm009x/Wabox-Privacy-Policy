@@ -96,7 +96,7 @@
     <h2>1. المعلومات التي نجمعها أو نعالجها</h2>
     <p>تختلف المعلومات بحسب الميزات التي تستخدمها، وقد تشمل:</p>
     <ul>
-      <li><strong>معلومات الحساب:</strong> معرّف الحساب، وحالة الحساب، والخطة المختارة، ومقدار الاستخدام المرتبط بها.</li>
+      <li><strong>معلومات الحساب والتحقق:</strong> معرّف الحساب وعنوان البريد الإلكتروني الذي تقدمه لتسجيل الدخول، وحالة التحقق من البريد، وحالة الحساب والخطة المختارة ومقدار الاستخدام. نستخدم رمز تحقق مؤقتاً يرسله Supabase Auth إلى بريدك الإلكتروني؛ لا نطلب كلمة مرور داخل WABOX.</li>
       <li><strong>معلومات حساب الأعمال المرتبط:</strong> المعرّفات اللازمة لتمييز حساب WhatsApp Business ورقم الهاتف التجاري الذي تختار ربطه.</li>
       <li><strong>معلومات رسائل العملاء:</strong> رقم هاتف مرسل الرسالة، ومحتوى الرسائل النصية الواردة، واسم العميل إذا أمكن استخلاصه من الرسالة، وملخص الطلب، وتاريخ الاستلام وحالة معالجة الرسالة.</li>
       <li><strong>معلومات الاشتراك:</strong> اسم الخطة وحالة الاشتراك وتواريخ بدايته أو انتهائه ومعلومات تأكيد عملية الشراء. لا يتلقى WABOX بيانات بطاقة الدفع الخاصة بك.</li>
@@ -117,15 +117,21 @@
     </ul>
 
     <h2>3. مشاركة المعلومات</h2>
-    <p>لا نبيع المعلومات الشخصية ولا نؤجرها. ولا نشاركها إلا بالقدر اللازم لتقديم الوظائف التي تختار استخدامها أو للامتثال لالتزام قانوني. وقد تتم مشاركة المعلومات مع الفئات التالية:</p>
+    <p>لا نبيع المعلومات الشخصية ولا نؤجرها. نشاركها فقط بالقدر اللازم لتقديم الوظائف التي تختار استخدامها أو للامتثال لالتزام قانوني. يستخدم WABOX مزودي الخدمة التاليين، وقد تتم معالجة البيانات على خوادم تقع خارج بلد إقامتك:</p>
     <ul>
-      <li><strong>خدمات المراسلة والأعمال المرتبطة بها:</strong> لتفعيل الربط الذي تختاره واستقبال الرسائل المرسلة إلى حساب الأعمال المرتبط.</li>
-      <li><strong>مقدمو خدمات معالجة النصوص:</strong> قد يُرسل محتوى الرسالة النصية بالقدر اللازم لاستخلاص بيانات العميل والطلب التي طلبت معالجتها.</li>
-      <li><strong>مقدمو خدمات الاستضافة وحفظ البيانات:</strong> لتشغيل الخدمة وحفظ معلومات الحساب والرسائل والنتائج وإتاحتها لك.</li>
-      <li><strong>جهات معالجة عمليات الشراء والاشتراكات:</strong> للتحقق من حالة الاشتراك وإدارة عمليات الشراء. تتم معالجة تفاصيل الدفع وفقًا لشروط وسياسات جهة الدفع المعنية.</li>
-      <li><strong>الجهات الرسمية أو القانونية:</strong> عندما يكون الإفصاح مطلوبًا بموجب قانون أو إجراء قانوني واجب التطبيق.</li>
+      <li><strong>Meta Platforms / WhatsApp Business Cloud API:</strong> لتوصيل حساب WhatsApp Business الذي تختار ربطه واستقبال الرسائل الواردة. تتعامل Meta مع بيانات حساب الأعمال ومع الرسائل التي تمر عبر Cloud API وفق شروط وسياسات WhatsApp Business. وقد تشمل البيانات معرّفات حساب الأعمال ورقم الهاتف التجاري والرسائل وأرقام مرسليها.</li>
+      <li><strong>Groq, Inc. (GroqCloud API):</strong> نعالج نص الرسالة الواردة لاستخراج اسم العميل وملخص الطلب. يُرسل نص الرسالة إلى Groq لهذا الغرض فقط؛ ولا نرسل رقم هاتف المرسل أو رمز دخول WhatsApp ضمن طلب استخراج الملخص. وفق وثائق Groq الحالية، قد تُخزّن مدخلات ومخرجات API لمدة تصل إلى 30 يوماً ما لم تكن إعدادات Zero Data Retention مفعّلة أو ينطبق استثناء تعاقدي. لا نفترض تفعيل هذا الخيار ما لم نتحقق منه فعلياً في حساب الخدمة. وتذكر Groq أنها لا تستخدم Customer Data لتدريب نماذجها لأغراضها الخاصة. راجع سياسة Groq ومركز الثقة لمعرفة الشروط والإعدادات السارية.</li>
+      <li><strong>Supabase, Inc.:</strong> لتشغيل المصادقة والتحقق من البريد الإلكتروني وقاعدة البيانات واستضافة وظائف الخادم والتحديثات الفورية. يخزن Supabase عنوان البريد الإلكتروني ومعرّف الحساب وبيانات الاستخدام وسجلات الرسائل والنتائج. يُحفظ نص الرسالة الخام ورمز وصول WhatsApp مشفّرين على مستوى التطبيق باستخدام AES-256-GCM، بينما تظل بعض الحقول التشغيلية اللازمة لعرض الجدول، مثل رقم الهاتف واسم العميل وملخص الطلب، بيانات مقروءة ومحمية بسياسات الوصول إلى الصفوف (RLS) وصلاحيات الخادم.</li>
+      <li><strong>Google Play / Google Play Billing:</strong> لمعالجة الاشتراكات والمدفوعات والتحقق من حالة الشراء. لا يحصل WABOX على رقم بطاقتك أو بيانات الدفع الكاملة؛ نتلقى معرّفات المنتج ورمز الشراء ومعلومات حالة الاشتراك اللازمة للتحقق من الاستحقاق وإدارة حدود الاستخدام.</li>
+      <li><strong>الجهات الرسمية أو القانونية:</strong> عندما يكون الإفصاح مطلوباً بموجب قانون أو إجراء قانوني واجب التطبيق.</li>
     </ul>
-    <p>قد تخضع المعلومات التي تتلقاها الجهات الخارجية لسياسات الخصوصية وشروط الاستخدام الخاصة بها. وعند تصدير ملف من التطبيق أو مشاركته، تكون مسؤولًا عن اختيار الجهة التي ترسله إليها.</p>
+    <p>تخضع معالجة كل مزود لشروطه وسياسة الخصوصية واتفاقيات معالجة البيانات الخاصة به. قد تُنقل البيانات أو تُعالج دولياً بحسب مواقع مراكز البيانات والإعدادات التعاقدية. وعند تصدير ملف Excel أو مشاركته، تكون مسؤولاً عن اختيار الجهة التي ترسله إليها.</p>
+    <ul>
+      <li><a href="https://www.whatsapp.com/legal/business-solution-terms/" target="_blank" rel="noopener noreferrer">شروط حلول WhatsApp للأعمال</a></li>
+      <li><a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener noreferrer">سياسة خصوصية Groq</a> · <a href="https://trust.groq.com/faq" target="_blank" rel="noopener noreferrer">مركز ثقة Groq واحتفاظ بيانات API</a></li>
+      <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">سياسة خصوصية Supabase</a></li>
+      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">سياسة خصوصية Google</a> · <a href="https://play.google.com/intl/en-us/about/play-terms/" target="_blank" rel="noopener noreferrer">شروط Google Play</a></li>
+    </ul>
 
     <h2>4. الاحتفاظ بالمعلومات</h2>
     <p>نحتفظ بمعلومات الحساب والرسائل والنتائج المرتبطة به ما دام الحساب نشطًا، وبالقدر اللازم لتقديم الخدمة وإدارة الاشتراكات وحماية الخدمة. وقد نحتفظ بسجلات محدودة للمدة اللازمة لمعالجة الأعطال أو منع الاحتيال أو الوفاء بالالتزامات القانونية.</p>
@@ -141,7 +147,7 @@
     <p>يؤدي حذف حساب WABOX إلى حذف بيانات الحساب والسجلات المرتبطة به من الخدمة وفقًا لما ورد في قسم الاحتفاظ بالمعلومات. ولا يؤدي ذلك تلقائيًا إلى حذف المعلومات التي تحتفظ بها خدمات المراسلة أو جهات خارجية أخرى بصورة مستقلة؛ وقد تحتاج إلى التواصل معها مباشرةً لطلب حذف تلك المعلومات.</p>
 
     <h2>6. حماية المعلومات</h2>
-    <p>نتخذ تدابير إدارية وتنظيمية وتقنية معقولة لحماية المعلومات من الوصول أو الاستخدام أو التغيير أو الإفصاح غير المصرح به. ونقصر الوصول إلى المعلومات على ما يلزم لتشغيل الخدمة وتقديم الدعم وحماية المستخدمين. ومع ذلك، لا يمكن ضمان أمان أي خدمة متصلة بالإنترنت بصورة مطلقة.</p>
+    <p>نستخدم اتصال HTTPS/TLS لنقل البيانات بين التطبيق والخدمات، ونشفّر نصوص رسائل WhatsApp الخام ورموز وصول Meta المخزنة لدينا باستخدام AES-256-GCM ومفتاح تشفير محفوظ في بيئة الخادم وليس داخل التطبيق. تُحفظ جلسة تسجيل الدخول محلياً في مخزن آمن بالجهاز، ويُشترط التحقق من البريد الإلكتروني برمز مؤقت للوصول إلى الحساب. كما نستخدم سياسات الوصول إلى الصفوف (RLS) لمنع المستخدم من قراءة سجلات مستخدم آخر، ونقصر مفاتيح الخدمة والصلاحيات الإدارية على وظائف الخادم. لا يعني ذلك أن كل حقل في قاعدة البيانات مشفّر تشفيراً منفصلاً؛ فبعض الحقول التشغيلية مثل رقم الهاتف والاسم وملخص الطلب تُخزّن بصيغة مقروءة لتشغيل الجدول والتصدير. لا يمكن ضمان أمان أي خدمة متصلة بالإنترنت بصورة مطلقة.</p>
 
     <h2>7. خصوصية الأطفال</h2>
     <p>WABOX خدمة موجهة لاستخدامات الأعمال وليست مصممة أو موجهة للأطفال. ولا نجمع عن قصد معلومات شخصية من الأطفال.</p>
@@ -168,7 +174,7 @@
     <h2>1. Information We Collect or Process</h2>
     <p>Depending on the features you use, the information may include:</p>
     <ul>
-      <li><strong>Account information:</strong> account identifier, account status, selected plan, and usage associated with that plan.</li>
+      <li><strong>Account and verification information:</strong> account identifier and the email address you provide for sign-in, email-verification status, account status, selected plan, and usage. Supabase Auth sends a temporary verification code to your email. WABOX does not ask you to create or enter an app password.</li>
       <li><strong>Connected business-account information:</strong> identifiers needed to recognize the WhatsApp Business account and business phone number you choose to connect.</li>
       <li><strong>Customer message information:</strong> the sender's phone number, incoming text-message content, the customer's name if it can be extracted from the message, an order summary, the received date, and message-processing status.</li>
       <li><strong>Subscription information:</strong> plan name, subscription status, start or end dates, and purchase-verification information. WABOX does not receive your payment-card details.</li>
@@ -189,15 +195,21 @@
     </ul>
 
     <h2>3. How Information Is Shared</h2>
-    <p>We do not sell or rent personal information. We share it only to the extent necessary to provide the features you choose to use or to comply with a legal obligation. Information may be shared with these categories of recipients:</p>
+    <p>We do not sell or rent personal information. We share it only as necessary to provide the features you choose or to comply with law. WABOX uses the following service providers. Data may be processed on servers outside your country of residence:</p>
     <ul>
-      <li><strong>Messaging and related business services:</strong> to enable the connection you choose and receive messages sent to the connected business account.</li>
-      <li><strong>Text-processing service providers:</strong> text-message content may be sent to the extent necessary to extract the customer and order details you requested.</li>
-      <li><strong>Hosting and data-storage providers:</strong> to operate the service, store account information, messages, and results, and make them available to you.</li>
-      <li><strong>Purchase and subscription-processing parties:</strong> to verify subscription status and manage purchases. Payment details are handled under the terms and privacy policies of the relevant payment party.</li>
+      <li><strong>Meta Platforms / WhatsApp Business Cloud API:</strong> to connect the WhatsApp Business account you select and receive its incoming messages. Meta processes business-account information and messages carried through Cloud API under its WhatsApp Business terms and policies. This may include business identifiers, business phone number, messages, and sender phone numbers.</li>
+      <li><strong>Groq, Inc. (GroqCloud API):</strong> we send incoming message text to extract the customer name and order summary. We do not include the sender's phone number or WhatsApp access token in the extraction request. Under Groq's current documentation, API inputs and outputs may be stored for up to 30 days unless Zero Data Retention is enabled or a contractual exception applies. We do not assume that this option is enabled unless we have verified it in our service account. Groq states that it does not use Customer Data to train its models for its own purposes. See Groq's policy and trust center for current terms and settings.</li>
+      <li><strong>Supabase, Inc.:</strong> to provide authentication and email verification, database hosting, server functions, and realtime updates. Supabase stores the email address, account identifier, usage data, message records, and results. Raw message text and WhatsApp access tokens are encrypted at the application level using AES-256-GCM. Some operational fields needed for the table, such as phone number, customer name, and order summary, remain readable and are protected by row-level security (RLS) and server permissions.</li>
+      <li><strong>Google Play / Google Play Billing:</strong> to process subscriptions and purchases and verify purchase status. WABOX does not receive your full payment-card details. We receive product identifiers, a purchase token, and subscription-status information needed to verify entitlement and manage usage limits.</li>
       <li><strong>Public authorities or legal recipients:</strong> when disclosure is required by applicable law or valid legal process.</li>
     </ul>
-    <p>Information received by third parties may be subject to their own privacy policies and terms. When you export or share a file from the app, you are responsible for choosing its recipient.</p>
+    <p>Each provider processes data under its own terms, privacy policy, and applicable data-processing agreements. Data may be transferred or processed internationally depending on data-center locations and contractual settings. When you export or share an Excel file, you are responsible for choosing its recipient.</p>
+    <ul>
+      <li><a href="https://www.whatsapp.com/legal/business-solution-terms/" target="_blank" rel="noopener noreferrer">WhatsApp Business Solution Terms</a></li>
+      <li><a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Groq Privacy Policy</a> · <a href="https://trust.groq.com/faq" target="_blank" rel="noopener noreferrer">Groq Trust Center and API data retention</a></li>
+      <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">Supabase Privacy Policy</a></li>
+      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a> · <a href="https://play.google.com/intl/en-us/about/play-terms/" target="_blank" rel="noopener noreferrer">Google Play Terms</a></li>
+    </ul>
 
     <h2>4. Data Retention</h2>
     <p>We retain account information, messages, and related results while the account is active and as needed to provide the service, manage subscriptions, and protect the service. We may retain limited records for as long as necessary to address errors, prevent fraud, or meet legal obligations.</p>
@@ -213,7 +225,7 @@
     <p>Deleting your WABOX account deletes account information and associated records from the service as described in the Data Retention section. It does not automatically delete information independently held by messaging services or other third parties. You may need to contact those parties directly to request deletion of their copies.</p>
 
     <h2>6. Information Security</h2>
-    <p>We use reasonable administrative, organizational, and technical safeguards to protect information against unauthorized access, use, alteration, or disclosure. Access to information is limited to what is necessary to operate the service, provide support, and protect users. However, no internet-connected service can be guaranteed to be completely secure.</p>
+    <p>We use HTTPS/TLS to transmit data between the app and services. Raw WhatsApp message text and stored Meta access tokens are encrypted at rest by the application using AES-256-GCM, with the encryption key kept in the server environment and not in the mobile app. Sign-in sessions are stored locally in the device's secure storage, and email verification by a temporary code is required to access an account. Row-level security (RLS) is used to prevent one user from reading another user's records, and service-role credentials are restricted to server functions. This does not mean every database field is separately encrypted: operational fields such as phone number, customer name, and order summary are stored in readable form so the table and export can work. No internet-connected service can be guaranteed to be completely secure.</p>
 
     <h2>7. Children's Privacy</h2>
     <p>WABOX is a business-oriented service and is not designed for or directed to children. We do not knowingly collect personal information from children.</p>
