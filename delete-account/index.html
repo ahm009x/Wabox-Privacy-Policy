@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>حذف حساب WABOX</title>
+<style>
+:root{color-scheme:light;--navy:#102b5c;--blue:#1877e8;--ink:#17243a;--muted:#66758b;--line:#dce6f2;--bg:#f5f8fc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+main{max-width:650px;margin:7vh auto;padding:20px}article{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 8px 30px #142d5010}
+h1{color:var(--navy);margin-top:0}p{color:var(--muted)}label{display:block;margin:16px 0 6px;font-weight:700;color:var(--navy)}
+input{width:100%;padding:13px;border:1px solid var(--line);border-radius:10px;font:inherit;color:var(--ink);direction:ltr;text-align:left}
+button{border:0;border-radius:10px;background:#b42318;color:#fff;font-weight:700;font-size:16px;padding:13px 20px;cursor:pointer;margin-top:14px}
+button.secondary{background:var(--blue)}button:disabled{opacity:.55;cursor:wait}.status{margin-top:18px;padding:12px;border-radius:10px;background:#f1f6fc;white-space:pre-wrap}
+.en{direction:ltr;text-align:left;border-top:1px solid var(--line);margin-top:26px;padding-top:20px}a{color:var(--blue)}
+.hidden{display:none!important}
+</style>
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+</head>
+<body>
+<main><article>
+<section lang="ar">
+<h1>حذف حساب WABOX وبياناته</h1>
+<p>يمكنك طلب حذف حساب WABOX من هذه الصفحة دون الحاجة إلى فتح التطبيق. نتحقق من ملكية الحساب بإرسال رمز تحقق إلى البريد الإلكتروني المسجل. بعد التحقق وتأكيدك النهائي، نحذف الحساب والبيانات المرتبطة به من WABOX.</p>
+<p><strong>تنبيه:</strong> حذف حساب WABOX لا يلغي اشتراك Google Play أو التجديد التلقائي؛ ألغِ الاشتراك من إعدادات اشتراكات Google Play إذا كان لديك اشتراك مدفوع.</p>
+<div id="emailFlow">
+ <label for="email">البريد الإلكتروني المسجل في WABOX</label>
+ <input id="email" type="email" autocomplete="email" placeholder="name@example.com" maxlength="254">
+ <button id="sendCode" class="secondary" type="button">إرسال رمز التحقق</button>
+ <div id="codeArea" class="hidden">
+  <label for="code">رمز التحقق المكوّن من 6 أرقام</label>
+  <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+  <button id="confirmEmailDelete" type="button">التحقق وتأكيد حذف الحساب نهائياً</button>
+  <button id="resendCode" class="secondary" type="button">إرسال رمز جديد</button>
+ </div>
+</div>
+<div id="tokenFlow" class="hidden">
+ <p>تم استلام طلب حذف آمن من تطبيق WABOX. اضغط للتأكيد النهائي. الرمز صالح لمدة 10 دقائق ويُستخدم مرة واحدة فقط.</p>
+ <button id="confirmTokenDelete" type="button">تأكيد حذف الحساب نهائيًا</button>
+</div>
+<div id="status" class="status" role="status" aria-live="polite">أدخل البريد الإلكتروني المرتبط بحسابك لبدء الطلب.</div>
+</section>
+<section class="en" lang="en">
+<h1>Delete your WABOX account</h1>
+<p>You can request deletion here without opening the app. We verify account ownership by sending a one-time code to the registered email address. After verification and your final confirmation, we delete your WABOX account and associated data.</p>
+<p><strong>Note:</strong> Deleting your WABOX account does not cancel a Google Play subscription or its automatic renewal. Cancel any paid subscription in Google Play subscription settings.</p>
+<p>Need help? <a href="mailto:ahmedformal009@gmail.com?subject=WABOX%20Account%20Deletion%20Support">Contact WABOX support</a>.</p>
+</section>
+</article></main>
+<script>
+(() => {
+ const status=document.getElementById('status');
+ const emailFlow=document.getElementById('emailFlow');
+ const tokenFlow=document.getElementById('tokenFlow');
+ const emailInput=document.getElementById('email');
+ const codeInput=document.getElementById('code');
+ const sendButton=document.getElementById('sendCode');
+ const verifyButton=document.getElementById('confirmEmailDelete');
+ const resendButton=document.getElementById('resendCode');
+ const tokenButton=document.getElementById('confirmTokenDelete');
+ const config=window.WABOX_CONFIG||{};
+ const params=new URLSearchParams(location.hash.slice(1));
+ let token=params.get('deletion_token')||params.get('token')||'';
+ const tokenBackend=(params.get('backend')||'').replace(/\/$/,'');
+ const tokenApiKey=params.get('apikey')||'';
+ const validTokenFlow=Boolean(token&&/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(tokenBackend)&&tokenApiKey.length>20&&tokenApiKey.length<500);
+ history.replaceState(null,'',location.pathname);
+ let client=null;
+ if(validTokenFlow){
+  emailFlow.classList.add('hidden');tokenFlow.classList.remove('hidden');
+ }else{
+  tokenFlow.classList.add('hidden');
+  if(config.supabaseUrl&&config.supabaseAnonKey&&window.supabase?.createClient){
+   client=window.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+  }else{
+   sendButton.disabled=true;
+   status.textContent='خدمة طلب الحذف غير مهيأة حالياً. تواصل مع الدعم عبر ahmedformal009@gmail.com.\nThe deletion service is not configured. Contact support using the email address below.';
+  }
+ }
+ async function sendCode(){
+  const email=emailInput.value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){status.textContent='أدخل بريداً إلكترونياً صحيحاً.\nEnter a valid email address.';return;}
+  sendButton.disabled=true;resendButton.disabled=true;status.textContent='جارٍ إرسال رمز التحقق…';
+  try{
+   const {error}=await client.auth.signInWithOtp({email,options:{shouldCreateUser:false}});
+   if(error)throw error;
+   document.getElementById('codeArea').classList.remove('hidden');
+   status.textContent='إذا كان البريد مرتبطاً بحساب WABOX، فسيصلك رمز تحقق. أدخل الرمز لإكمال الطلب.\nIf this email is registered with WABOX, a verification code will be sent. Enter it to continue.';
+  }catch(_){
+   status.textContent='تعذر إرسال الرمز الآن. تحقق من البريد وحاول لاحقاً أو تواصل مع الدعم.\nUnable to send a code now. Check the email and try later, or contact support.';
+  }finally{sendButton.disabled=false;resendButton.disabled=false;}
+ }
+ async function verifyAndDelete(){
+  const email=emailInput.value.trim().toLowerCase();
+  const code=codeInput.value.trim().replace(/\s/g,'');
+  if(!/^\d{6}$/.test(code)){status.textContent='أدخل رمز التحقق المكوّن من 6 أرقام.\nEnter the six-digit verification code.';return;}
+  if(!window.confirm('هل أنت متأكد من حذف حساب WABOX وجميع بياناته نهائياً؟ لا يمكن التراجع.\nPermanently delete your WABOX account and all associated data? This cannot be undone.'))return;
+  verifyButton.disabled=true;resendButton.disabled=true;status.textContent='جارٍ التحقق وتنفيذ الحذف…';
+  try{
+   const {data,error}=await client.auth.verifyOtp({email,token:code,type:'email'});
+   if(error||!data.session)throw new Error('EMAIL_VERIFICATION_FAILED');
+   const {data:result,error:deleteError}=await client.functions.invoke('delete-account');
+   if(deleteError||result?.deleted!==true)throw new Error('ACCOUNT_DELETION_FAILED');
+   await client.auth.signOut({scope:'local'});
+   emailFlow.classList.add('hidden');
+   status.textContent=result.metaDetached===false
+    ?'تم حذف بيانات WABOX، لكن تعذر تأكيد فصل ربط Meta. تواصل مع الدعم عند الحاجة.\nWABOX data was deleted, but Meta detachment could not be confirmed. Contact support if needed.'
+    :'تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\nYour WABOX account and associated data have been deleted.';
+  }catch(_){
+   status.textContent='تعذر التحقق أو إكمال الحذف. تأكد من الرمز وحاول مجدداً، أو تواصل مع الدعم.\nCould not verify or complete deletion. Check the code and try again, or contact support.';
+   verifyButton.disabled=false;resendButton.disabled=false;
+  }
+ }
+ async function confirmTokenDeletion(){
+  if(!window.confirm('هل أنت متأكد من حذف حساب WABOX وجميع بياناته نهائياً؟ لا يمكن التراجع.\nPermanently delete your WABOX account and all associated data? This cannot be undone.'))return;
+  tokenButton.disabled=true;status.textContent='جارٍ تنفيذ الحذف…';
+  try{
+   const response=await fetch(tokenBackend+'/functions/v1/confirm-account-deletion',{
+    method:'POST',headers:{'Content-Type':'application/json','apikey':tokenApiKey},body:JSON.stringify({token})
+   });
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||result.deleted!==true)throw new Error('ACCOUNT_DELETION_FAILED');
+   token='';
+   status.textContent=result.metaDetached===false
+    ?'تم حذف بيانات WABOX، لكن تعذر تأكيد فصل ربط Meta. تواصل مع الدعم عند الحاجة.\nWABOX data was deleted, but Meta detachment could not be confirmed.'
+    :'تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\nYour WABOX account and associated data have been deleted.';
+   tokenButton.textContent='تم الحذف';
+  }catch(_){
+   token='';tokenButton.disabled=true;
+   status.textContent='تعذر إكمال الحذف. افتح صفحة السياسة من التطبيق لبدء طلب جديد أو تواصل مع الدعم.\nCould not complete deletion. Start a new request from the app or contact support.';
+  }
+ }
+ sendButton.addEventListener('click',sendCode);
+ resendButton.addEventListener('click',sendCode);
+ verifyButton.addEventListener('click',verifyAndDelete);
+ tokenButton.addEventListener('click',confirmTokenDeletion);
+})();
+</script>
+</body>
+</html>
