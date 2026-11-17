@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
   <meta name="description" content="سياسة خصوصية تطبيق WABOX، توضح المعلومات التي تتم معالجتها واستخدامها ومشاركتها والاحتفاظ بها وطرق حذف الحساب والبيانات.">
   <meta name="robots" content="index,follow">
   <title>سياسة الخصوصية | WABOX</title>
@@ -231,5 +232,34 @@
 </article>
 <footer>WABOX · Privacy Policy</footer>
 </main>
+
+<script>
+(() => {
+  try {
+    const fragment = new URLSearchParams(window.location.hash.slice(1));
+    const token = fragment.get('deletion_token');
+    const backend = fragment.get('backend');
+    const apikey = fragment.get('apikey');
+    if (!token || !backend || !apikey) return;
+
+    const target = new URL('https://ahm009x.github.io/Wabox/delete-account/');
+    target.hash = new URLSearchParams({
+      deletion_token: token,
+      backend,
+      apikey
+    }).toString();
+
+    document.querySelectorAll('a.delete-link').forEach((link) => {
+      link.href = target.toString();
+    });
+
+    // Remove the one-time credential from the policy page URL after forwarding it.
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  } catch (_) {
+    // Keep the normal email fallback if the forwarding data is invalid.
+  }
+})();
+</script>
+
 </body>
 </html>
