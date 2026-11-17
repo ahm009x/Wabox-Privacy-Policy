@@ -141,7 +141,7 @@
     <div class="delete-box">
       <strong>لطلب حذف حساب WABOX والبيانات المرتبطة به من خارج التطبيق:</strong>
       <p>يمكنك طلب حذف الحساب من خلال صفحة الحذف الخارجية. أدخل البريد الإلكتروني المسجل في WABOX، وسنرسل رمز تحقق لمرة واحدة لإثبات قدرتك على الوصول إلى البريد. بعد إدخال الرمز وتأكيد الحذف، ينفذ الخادم حذف الحساب والبيانات المرتبطة به. إذا تعذر عليك استخدام الصفحة، يمكنك التواصل مع الدعم. لا ترسل كلمة مرورك أو رموز التحقق إلى فريق الدعم.</p>
-      <a class="delete-link" href="https://ahm009x.github.io/Wabox/delete-account/">فتح صفحة حذف الحساب والتحقق بالبريد الإلكتروني</a>
+      <a class="delete-link" href="https://ahm009x.github.io/Wabox-Privacy-Policy/delete-account/">فتح صفحة حذف الحساب والتحقق بالبريد الإلكتروني</a>
     </div>
     <p>يمكنك أيضًا بدء حذف الحساب من داخل التطبيق من خلال <strong>الإعدادات ثم حذف الحساب</strong>. سنستخدم المعلومات الضرورية للتحقق من الطلب وتنفيذه، ونسعى إلى إتمام الطلب خلال مدة معقولة.</p>
     <p>يؤدي حذف حساب WABOX إلى حذف بيانات الحساب والسجلات المرتبطة به من الخدمة وفقًا لما ورد في قسم الاحتفاظ بالمعلومات. ولا يؤدي ذلك تلقائيًا إلى حذف المعلومات التي تحتفظ بها خدمات المراسلة أو جهات خارجية أخرى بصورة مستقلة؛ وقد تحتاج إلى التواصل معها مباشرةً لطلب حذف تلك المعلومات.</p>
@@ -219,7 +219,7 @@
     <div class="delete-box">
       <strong>To request deletion of your WABOX account and associated data from outside the app:</strong>
       <p>Use the external account-deletion page. Enter the email address registered with WABOX, and we will send a one-time verification code to confirm access to that mailbox. After you enter the code and confirm deletion, the server deletes your account and associated WABOX data. If you cannot use the page, contact support. Never send your password or verification codes to support.</p>
-      <a class="delete-link" href="https://ahm009x.github.io/Wabox/delete-account/">Open the email-verified account deletion page</a>
+      <a class="delete-link" href="https://ahm009x.github.io/Wabox-Privacy-Policy/delete-account/">Open the email-verified account deletion page</a>
     </div>
     <p>You can also initiate account deletion within the app under <strong>Settings, then Delete Account</strong>. We will use the information necessary to verify and process the request and aim to complete it within a reasonable period.</p>
     <p>Deleting your WABOX account deletes account information and associated records from the service as described in the Data Retention section. It does not automatically delete information independently held by messaging services or other third parties. You may need to contact those parties directly to request deletion of their copies.</p>
@@ -254,7 +254,7 @@
     const apikey = fragment.get('apikey');
     if (!token || !backend || !apikey) return;
 
-    const target = new URL('https://ahm009x.github.io/Wabox/delete-account/');
+    const target = new URL('https://ahm009x.github.io/Wabox-Privacy-Policy/delete-account/');
     target.hash = new URLSearchParams({
       deletion_token: token,
       backend,
