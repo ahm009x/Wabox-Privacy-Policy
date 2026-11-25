@@ -108,9 +108,7 @@ button.secondary{background:var(--blue)}button:disabled{opacity:.55;cursor:wait}
    if(deleteError||result?.deleted!==true)throw new Error('ACCOUNT_DELETION_FAILED');
    await client.auth.signOut({scope:'local'});
    emailFlow.classList.add('hidden');
-   status.textContent=result.metaDetached===false
-    ?'تم حذف بيانات WABOX، لكن تعذر تأكيد فصل ربط Meta. تواصل مع الدعم عند الحاجة.\nWABOX data was deleted, but Meta detachment could not be confirmed. Contact support if needed.'
-    :'تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\nYour WABOX account and associated data have been deleted.';
+   status.textContent='تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\\nYour WABOX account and associated data have been deleted.';
   }catch(_){
    status.textContent='تعذر التحقق أو إكمال الحذف. تأكد من الرمز وحاول مجدداً، أو تواصل مع الدعم.\nCould not verify or complete deletion. Check the code and try again, or contact support.';
    verifyButton.disabled=false;resendButton.disabled=false;
@@ -126,9 +124,7 @@ button.secondary{background:var(--blue)}button:disabled{opacity:.55;cursor:wait}
    const result=await response.json().catch(()=>({}));
    if(!response.ok||result.deleted!==true)throw new Error('ACCOUNT_DELETION_FAILED');
    token='';
-   status.textContent=result.metaDetached===false
-    ?'تم حذف بيانات WABOX، لكن تعذر تأكيد فصل ربط Meta. تواصل مع الدعم عند الحاجة.\nWABOX data was deleted, but Meta detachment could not be confirmed.'
-    :'تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\nYour WABOX account and associated data have been deleted.';
+   status.textContent='تم حذف حساب WABOX والبيانات المرتبطة به بنجاح.\\nYour WABOX account and associated data have been deleted.';
    tokenButton.textContent='تم الحذف';
   }catch(_){
    token='';tokenButton.disabled=true;
